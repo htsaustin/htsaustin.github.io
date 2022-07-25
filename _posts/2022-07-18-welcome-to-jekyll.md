@@ -36,8 +36,7 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <title>Google Maps Multiple Markers</title>
-  <script src="http://maps.google.com/maps/api/js?key=xxx"
-          type="text/javascript"></script>
+  <script src="http://maps.google.com/maps/api/js?key=AIzaSyDWEYdTqtEEZSQQygAtWpTEUqchtkHpLNo" type="text/javascript"></script>
 </head>
 <body>
   <div id="map" style="width: 500px; height: 400px;"></div>
