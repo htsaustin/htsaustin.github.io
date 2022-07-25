@@ -33,17 +33,36 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 
 
 <html>
-<div id="googleMap" style="width:100%;height:400px;"></div>
+  <div id="googleMap" style="width: 500px; height: 400px;"></div>
+  <script>
+    function myMap() {
+      var mapProp= {
+            zoom: 10,
+            center: new google.maps.LatLng(-33.92, 151.25),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+  
+      var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  
+      var infowindow = new google.maps.InfoWindow();
+  
+      var marker, i;
+  
+      for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+          map: map
+        });
+  
+      google.maps.event.addListener(marker, 'click', (function (marker, i) {
+        return function () {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+  }
+  </script>
 
-<script>
-function myMap() {
-var mapProp= {
-  center:new google.maps.LatLng(51.508742,-0.120850),
-  zoom:5,
-};
-var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-}
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWEYdTqtEEZSQQygAtWpTEUqchtkHpLNo&callback=myMap"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWEYdTqtEEZSQQygAtWpTEUqchtkHpLNo&callback=myMap"></script>
 </html>
