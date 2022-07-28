@@ -34,20 +34,11 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 
 <html>
   <div id="googleMap" style="width: 500px; height: 400px;"></div>
-  <script src="../_data/untappd.json"></script>
 
   <script>
     function myMap() {
-      var mydata = JSON.parse(untappd);
+      var mydata = {{site.data.untappd | jsonify}}
       console.log(mydata); 
-
-      var locations = [
-        ['Bondi Beach', -33.890542, 151.274856, 4],
-        ['Coogee Beach', -33.923036, 151.259052, 5],
-        ['Cronulla Beach', -34.028249, 151.157507, 3],
-        ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-        ['Maroubra Beach', -33.950198, 151.259302, 1]
-      ];
 
       var mapProp= {
             zoom: 10,
@@ -61,15 +52,15 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
   
       var marker, i;
   
-      for (i = 0; i < locations.length; i++) {
+      for (i = 0; i < mydata.length; i++) {
         marker = new google.maps.Marker({
-          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+          position: new google.maps.LatLng(mydata[i]["venue_lat"], mydata[i]["venue_lng"]),
           map: map
         });
   
       google.maps.event.addListener(marker, 'click', (function (marker, i) {
         return function () {
-          infowindow.setContent(locations[i][0]);
+          infowindow.setContent(mydata[i]["beer_name"]);
           infowindow.open(map, marker);
         }
       })(marker, i));
