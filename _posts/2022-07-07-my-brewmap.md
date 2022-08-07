@@ -27,7 +27,7 @@ and add some snippets to GitHub!
 
       var mapProp= {
             zoom: 7,
-            center: new google.maps.LatLng(-0.00, 0.00),
+            center: new google.maps.LatLng(51.47, 0.00),
             mapTypeId: google.maps.MapTypeId.ROADMAP
           };
   
