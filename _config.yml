@@ -21,8 +21,7 @@
 title: Craft Beer and Code
 email: htsaustin@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  A blog to write about the craft beer I drink, and the code I work on day to day. 
-  Let's see where it goes!
+  A blog about the craft beer I drink, and the code I write.
 baseurl: ""
 url: "https://www.craftbeerandcode.dev"
 github_username:  htsaustin

@@ -3,7 +3,7 @@ layout: page
 title: About
 permalink: /about/
 description: About me and this blog
-background: '/PATH_TO_IMAGE'
+background: '/img/catabout.jpeg'
 ---
 
-To be continued - check out my LinkedIn and GitHub in the meantime!
+I own a cat, write code and drink beer - check out my LinkedIn and GitHub!
