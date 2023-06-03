@@ -17,7 +17,7 @@ this Brew-Map as much as I enjoyed building it. In the near future I'll explain 
 and add some snippets to GitHub!
 
 
-<html>
+<html lang="en">
   <div id="googleMap" style="width: 500px; height: 400px;"></div>
 
   <script>
