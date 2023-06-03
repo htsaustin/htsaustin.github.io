@@ -20,6 +20,7 @@ and add some snippets to GitHub!
 <html lang="en">
   <div id="googleMap" style="width: 500px; height: 400px;"></div>
 
+  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
   <script>
     function myMap() {
       var mydata = {{site.data.untappd | jsonify}}
@@ -36,7 +37,8 @@ and add some snippets to GitHub!
       var infowindow = new google.maps.InfoWindow();
   
       var marker, i;
-  
+      const markers = [];
+
       for (i = 0; i < mydata.length; i++) {
         // Terrible code to add fuzziness to a point's location - by ~1m.
         // This helps when displaying multiple drinks in a single location
@@ -59,29 +61,35 @@ and add some snippets to GitHub!
           position: new google.maps.LatLng(newY, newX),
           map: map
         });
+
+        markers.push(marker);
+
   
-      google.maps.event.addListener(marker, 'click', (function (marker, i) {
-        return function () {
-          beerName = mydata[i]["beer_name"]
-          beerUrl = mydata[i]["beer_url"]
-          venueName = mydata[i]["venue_name"]
-          brewery = mydata[i]["brewery_name"]
-          breweryUrl = mydata[i]["brewery_url"]
-          checkinUrl = mydata[i]["checkin_url"]
-          checkinImg = mydata[i]["photo_url"]
-          createdAt = mydata[i]["created_at"]
-          content = 
-                 '<div id="content">' +
-                 '<a href="'+beerUrl+'">'+beerName+'</a> by <a href="'+breweryUrl+'">'+brewery+'</a>' + 
-                 '<br>Venue - '+venueName + 
-                 '<br><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a>' +
-                 '<br><img src="'+checkinImg+'" width="100" height="auto">' + 
-                 '</div>';
-          infowindow.setContent(content);
-          infowindow.open(map, marker);
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+              beerName = mydata[i]["beer_name"]
+              beerUrl = mydata[i]["beer_url"]
+              venueName = mydata[i]["venue_name"]
+              brewery = mydata[i]["brewery_name"]
+              breweryUrl = mydata[i]["brewery_url"]
+              checkinUrl = mydata[i]["checkin_url"]
+              checkinImg = mydata[i]["photo_url"]
+              createdAt = mydata[i]["created_at"]
+              content = 
+                     '<div id="content">' +
+                     '<a href="'+beerUrl+'">'+beerName+'</a> by <a href="'+breweryUrl+'">'+brewery+'</a>' + 
+                     '<br>Venue - '+venueName + 
+                     '<br><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a>' +
+                     '<br><img src="'+checkinImg+'" width="100" height="auto">' + 
+                     '</div>';
+              infowindow.setContent(content);
+              infowindow.open(map, marker);
         }
       })(marker, i));
     }
+
+    new markerClusterer.MarkerClusterer({ markers, map });
+
   }
   </script>
 
