@@ -55,10 +55,8 @@ and add some snippets to GitHub!
           createdAt = mydata[i]["created_at"]
           content = 
                  '<div id="content">' +
-                 '<h1 id="firstHeading" class="firstHeading">'+beerName+'</h1>' +
-                 '<div id="bodyContent">' +
-                 '<p><a href="'+beerUrl+'">'+beerName+'</a> - <a href="'+breweryUrl+'">'+brewery+'</a></p>' + 
-                 '<p>'+venueName+'</p>' + 
+                 '<p><a href="'+beerUrl+'">'+beerName+'</a> by <a href="'+breweryUrl+'">'+brewery+'</a></p>' + 
+                 '<p>Venue - '+venueName+'</p>' + 
                  '<p><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a></p>' +
                  '<img src="'+checkinImg+'" width="100" height="auto">' + 
                  '</div>';
