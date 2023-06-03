@@ -36,8 +36,8 @@ and add some snippets to GitHub!
         var y1 = w * Math.sin(t);
         var x1 = x / Math.cos(y0);
 
-        newLng = y0 + y1
-        newLat = x0 + x1
+        newLat = y0 + y1
+        newLng = x0 + x1
         return [newLat, newLng];
     }
   </script>
