@@ -55,10 +55,10 @@ and add some snippets to GitHub!
           createdAt = mydata[i]["created_at"]
           content = 
                  '<div id="content">' +
-                 '<p><a href="'+beerUrl+'">'+beerName+'</a> by <a href="'+breweryUrl+'">'+brewery+'</a></p>' + 
-                 '<p>Venue - '+venueName+'</p>' + 
-                 '<p><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a></p>' +
-                 '<img src="'+checkinImg+'" width="100" height="auto">' + 
+                 '<a href="'+beerUrl+'">'+beerName+'</a> by <a href="'+breweryUrl+'">'+brewery+'</a>' + 
+                 '<br>Venue - '+venueName + 
+                 '<br><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a>' +
+                 '<br><img src="'+checkinImg+'" width="100" height="auto">' + 
                  '</div>';
           infowindow.setContent(content);
           infowindow.open(map, marker);
