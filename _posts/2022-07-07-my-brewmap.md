@@ -38,8 +38,25 @@ and add some snippets to GitHub!
       var marker, i;
   
       for (i = 0; i < mydata.length; i++) {
+        // Terrible code to add fuzziness to a point's location - by ~1m.
+        // This helps when displaying multiple drinks in a single location
+        // See https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
+        var r = 1/111300; 
+        var y0 = parseFloat(mydata[i]["venue_lat"]);
+        var x0 = parseFloat(mydata[i]["venue_lng"]);
+        var u = Math.random();
+        var v = Math.random();
+        var w = r * Math.sqrt(u);
+        var t = 2 * Math.PI * v;
+        var x = w * Math.cos(t);
+        var y1 = w * Math.sin(t);
+        var x1 = x / Math.cos(y0);
+
+        newY = y0 + y1
+        newX = x0 + x1
+
         marker = new google.maps.Marker({
-          position: new google.maps.LatLng(mydata[i]["venue_lat"], mydata[i]["venue_lng"]),
+          position: new google.maps.LatLng(newY, newX),
           map: map
         });
   
