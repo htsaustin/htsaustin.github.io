@@ -21,6 +21,48 @@ and add some snippets to GitHub!
   <div id="googleMap" style="width: 500px; height: 400px;"></div>
 
   <script>
+    function fuzzyLatLong(lat, long, fuzz) {
+        // Terrible code to add fuzziness to a point's location - by ~1m.
+        // This helps when displaying multiple drinks in a single location
+        // See https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
+        var r = 1/111300; 
+        var y0 = lat;
+        var x0 = long;
+        var u = Math.random();
+        var v = Math.random();
+        var w = r * Math.sqrt(u);
+        var t = 2 * Math.PI * v;
+        var x = w * Math.cos(t);
+        var y1 = w * Math.sin(t);
+        var x1 = x / Math.cos(y0);
+
+        newLng = y0 + y1
+        newLat = x0 + x1
+        return [newLat, newLng];
+    }
+  </script>
+  <script>
+    function buildMarkerContent(data) {
+      beerName = data["beer_name"];
+      beerUrl = data["beer_url"];
+      venueName = data["venue_name"];
+      brewery = data["brewery_name"];
+      breweryUrl = data["brewery_url"];
+      checkinUrl = data["checkin_url"];
+      checkinImg = data["photo_url"];
+      createdAt = data["created_at"];
+      content = 
+             '<div id="content">' +
+             '<a href="'+beerUrl+'">'+beerName+'</a> by <a href="'+breweryUrl+'">'+brewery+'</a>' + 
+             '<br>Venue - '+venueName + 
+             '<br><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a>' +
+             '<br><img src="'+checkinImg+'" width="100" height="auto">' + 
+             '</div>';
+      return content;
+    }
+  </script>
+
+  <script>
     function myMap() {
       var mydata = {{site.data.untappd | jsonify}}
       // console.log(mydata); 
@@ -38,45 +80,19 @@ and add some snippets to GitHub!
       var marker, i;
   
       for (i = 0; i < mydata.length; i++) {
-        // Terrible code to add fuzziness to a point's location - by ~1m.
-        // This helps when displaying multiple drinks in a single location
-        // See https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
-        var r = 1/111300; 
-        var y0 = parseFloat(mydata[i]["venue_lat"]);
-        var x0 = parseFloat(mydata[i]["venue_lng"]);
-        var u = Math.random();
-        var v = Math.random();
-        var w = r * Math.sqrt(u);
-        var t = 2 * Math.PI * v;
-        var x = w * Math.cos(t);
-        var y1 = w * Math.sin(t);
-        var x1 = x / Math.cos(y0);
-
-        newY = y0 + y1
-        newX = x0 + x1
-
+        newLatLng = fuzzyLatLong(
+            parseFloat(mydata[i]["venue_lat"]),
+            parseFloat(mydata[i]["venue_lng"]),
+            1)
+        
         marker = new google.maps.Marker({
-          position: new google.maps.LatLng(newY, newX),
+          position: new google.maps.LatLng(newLatLng[0], newLatLng[1]),
           map: map
         });
   
       google.maps.event.addListener(marker, 'click', (function (marker, i) {
         return function () {
-          beerName = mydata[i]["beer_name"]
-          beerUrl = mydata[i]["beer_url"]
-          venueName = mydata[i]["venue_name"]
-          brewery = mydata[i]["brewery_name"]
-          breweryUrl = mydata[i]["brewery_url"]
-          checkinUrl = mydata[i]["checkin_url"]
-          checkinImg = mydata[i]["photo_url"]
-          createdAt = mydata[i]["created_at"]
-          content = 
-                 '<div id="content">' +
-                 '<a href="'+beerUrl+'">'+beerName+'</a> by <a href="'+breweryUrl+'">'+brewery+'</a>' + 
-                 '<br>Venue - '+venueName + 
-                 '<br><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a>' +
-                 '<br><img src="'+checkinImg+'" width="100" height="auto">' + 
-                 '</div>';
+          content = buildMarkerContent(mydata[i]);
           infowindow.setContent(content);
           infowindow.open(map, marker);
         }
