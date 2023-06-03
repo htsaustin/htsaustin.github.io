@@ -23,7 +23,7 @@ and add some snippets to GitHub!
   <script>
     function myMap() {
       var mydata = {{site.data.untappd | jsonify}}
-      console.log(mydata); 
+      // console.log(mydata); 
 
       var mapProp= {
             zoom: 3,
@@ -45,7 +45,24 @@ and add some snippets to GitHub!
   
       google.maps.event.addListener(marker, 'click', (function (marker, i) {
         return function () {
-          infowindow.setContent(mydata[i]["beer_name"]);
+          beerName = mydata[i]["beer_name"]
+          beerUrl = mydata[i]["beer_url"]
+          venueName = mydata[i]["venue_name"]
+          brewery = mydata[i]["brewery_name"]
+          breweryUrl = mydata[i]["brewery_url"]
+          checkinUrl = mydata[i]["checkin_url"]
+          checkinImg = mydata[i]["photo_url"]
+          createdAt = mydata[i]["created_at"]
+          content = 
+                 '<div id="content">' +
+                 '<h1 id="firstHeading" class="firstHeading">'+beerName+'</h1>' +
+                 '<div id="bodyContent">' +
+                 '<p><a href="'+beerUrl+'">'+beerName+'</a> - <a href="'+breweryUrl+'">'+brewery+'</a></p>' + 
+                 '<p>'+venueName+'</p>' + 
+                 '<p><a href="'+checkinUrl+'">Check-In - ' + createdAt + '</a></p>' +
+                 '<img src="'+checkinImg+'" width="100" height="auto">' + 
+                 '</div>';
+          infowindow.setContent(content);
           infowindow.open(map, marker);
         }
       })(marker, i));
