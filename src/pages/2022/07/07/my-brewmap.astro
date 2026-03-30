@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import BrewMap from "../../../../components/BrewMap.astro";
+---
+
+<BaseLayout
+  title="My BrewMap | Craft Beer and Code"
+  description="How a first blog post turned into a map of every beer check-in."
+  background="/img/posts/post_1_brewmap.png"
+  pageTitle="My BrewMap"
+>
+  <article class="page-copy post-content">
+    <p class="post-meta">Posted by Henry Austin on August 07, 2022</p>
+
+    <h2>How to get distracted from writing a blog post</h2>
+
+    <p>
+      I started this blog with the intention of summing up my thoughts about various
+      parts of being a software engineer, interesting problems and patterns I've run into,
+      and occasionally talk about a beer I found on my travels. As with any great aspiration,
+      it hit a couple of speed-bumps, but we're finally here!
+    </p>
+
+    <p>
+      As a huge distraction from actually publishing a first post, I hope you enjoy
+      this Brew-Map as much as I enjoyed building it. In the near future I'll explain how it's done,
+      and add some snippets to GitHub!
+    </p>
+
+    <BrewMap />
+  </article>
+</BaseLayout>

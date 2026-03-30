@@ -1,0 +1,23 @@
+---
+import type { PostSummary } from "../data/posts";
+
+interface Props {
+  post: PostSummary;
+}
+
+const { post } = Astro.props;
+---
+
+<article class="post-preview">
+  <a href={post.href}>
+    <h2 class="post-title">{post.title}</h2>
+    <h3 class="post-subtitle">{post.excerpt}</h3>
+  </a>
+  <p class="post-meta">
+    Posted by
+    <span>Henry Austin</span>
+    on {post.dateLabel}
+  </p>
+</article>
+
+<hr class="post-divider" />

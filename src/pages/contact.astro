@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title="Contact | Craft Beer and Code"
+  description="Have questions? I have answers."
+  background="/img/contactme.jpeg"
+  pageTitle="Contact Me"
+  pageDescription="Have questions? I have answers."
+>
+  <section class="page-copy">
+    <p class="lede">Want to get in touch? Drop me a line.</p>
+    <div class="contact-methods">
+      <a class="contact-method" href={`mailto:${site.email}`}>
+        <span class="contact-method__label">Email</span>
+        <span class="contact-method__value">{site.email}</span>
+      </a>
+      <a class="contact-method" href={site.githubUrl}>
+        <span class="contact-method__label">GitHub</span>
+        <span class="contact-method__value">github.com/htsaustin</span>
+      </a>
+      <a class="contact-method" href={site.linkedinUrl}>
+        <span class="contact-method__label">LinkedIn</span>
+        <span class="contact-method__value">henry-austin</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

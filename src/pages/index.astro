@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostPreview from "../components/PostPreview.astro";
+import { posts } from "../data/posts";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title={site.title}
+  description={site.description}
+  background="/img/homebanner.jpeg"
+  pageTitle={site.title}
+  pageDescription={site.description}
+>
+  {posts.map((post) => <PostPreview post={post} />)}
+</BaseLayout>
