@@ -1,0 +1,76 @@
+---
+import "../styles/global.css";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  background?: string;
+  pageTitle?: string;
+  pageDescription?: string;
+}
+
+const {
+  title = site.title,
+  description = site.description,
+  background = "/img/homebanner.jpeg",
+  pageTitle = title,
+  pageDescription
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="canonical" href={Astro.url} />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="site-nav">
+      <div class="container nav-inner">
+        <a class="brand" href="/">{site.title}</a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/about/">About</a>
+          <a href="/posts/">Posts</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="masthead" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(${background});`}>
+      <div class="container masthead-inner">
+        <div class="site-heading">
+          <h1>{pageTitle}</h1>
+          {pageDescription && <span class="subheading">{pageDescription}</span>}
+        </div>
+      </div>
+    </header>
+
+    <main class="container page-content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <ul class="footer-links">
+          <li><a href={site.githubUrl}>GitHub</a></li>
+          <li><a href={site.linkedinUrl}>LinkedIn</a></li>
+          <li><a href={`mailto:${site.email}`}>Email</a></li>
+        </ul>
+        <p class="copyright">Copyright &copy; {site.title} {new Date().getFullYear()}</p>
+      </div>
+    </footer>
+  </body>
+</html>

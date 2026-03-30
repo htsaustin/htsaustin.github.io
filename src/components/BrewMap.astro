@@ -1,0 +1,86 @@
+---
+import untappd from "../data/untappd.json";
+
+const data = JSON.stringify(untappd);
+const apiKey = "AIzaSyDWEYdTqtEEZSQQygAtWpTEUqchtkHpLNo";
+---
+
+<div id="googleMap" class="brewmap"></div>
+<script is:inline id="untappd-data" type="application/json" set:html={data}></script>
+<script is:inline define:vars={{ apiKey }}>
+  function fuzzyLatLong(lat, lng) {
+    const r = 1 / 111300;
+    const y0 = lat;
+    const x0 = lng;
+    const u = Math.random();
+    const v = Math.random();
+    const w = r * Math.sqrt(u);
+    const t = 2 * Math.PI * v;
+    const x = w * Math.cos(t);
+    const y1 = w * Math.sin(t);
+    const x1 = x / Math.cos(y0);
+
+    return [y0 + y1, x0 + x1];
+  }
+
+  function buildMarkerContent(data) {
+    return (
+      '<div id="content">' +
+      '<a href="' + data.beer_url + '">' + data.beer_name + "</a> by " +
+      '<a href="' + data.brewery_url + '">' + data.brewery_name + "</a>" +
+      "<br>Venue - " + data.venue_name +
+      '<br><a href="' + data.checkin_url + '">Check-In - ' + data.created_at + "</a>" +
+      '<br><img src="' + data.photo_url + '" width="100" height="auto">' +
+      "</div>"
+    );
+  }
+
+  function myMap() {
+    const mapNode = document.getElementById("googleMap");
+    const rawData = document.getElementById("untappd-data");
+
+    if (!mapNode || !rawData?.textContent || !window.google?.maps) {
+      return;
+    }
+
+    const mydata = JSON.parse(rawData.textContent);
+    const map = new google.maps.Map(mapNode, {
+      zoom: 3,
+      center: new google.maps.LatLng(51.47, 0.0),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      gestureHandling: "cooperative",
+      fullscreenControl: false
+    });
+
+    const infowindow = new google.maps.InfoWindow();
+
+    for (let i = 0; i < mydata.length; i += 1) {
+      const [lat, lng] = fuzzyLatLong(
+        parseFloat(mydata[i].venue_lat),
+        parseFloat(mydata[i].venue_lng)
+      );
+
+      const marker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lng),
+        map
+      });
+
+      google.maps.event.addListener(marker, "click", () => {
+        infowindow.setContent(buildMarkerContent(mydata[i]));
+        infowindow.open(map, marker);
+      });
+    }
+  }
+
+  window["myMap"] = myMap;
+
+  if (!document.querySelector('script[data-google-maps="brewmap"]')) {
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=myMap`;
+    script.async = true;
+    script.dataset.googleMaps = "brewmap";
+    document.head.appendChild(script);
+  } else if (window.google?.maps) {
+    myMap();
+  }
+</script>
